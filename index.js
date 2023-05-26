@@ -97,7 +97,7 @@ app.post("/send-otp", async (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   try {
-    sendEmail(email, "OTP Verification", `Your OTP for verifying your email id is: ${otp}`);
+    sendEmail(email, "ECELL OTP Verification", `Your OTP for verifying your email id for filling Ecell recuitment form is: ${otp}`);
 
     storedOTP = otp.toString();
     res.json({ success: true, otp });

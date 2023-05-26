@@ -25,13 +25,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: function (value) {
-        return /^(\w+@(cse|civil|me|ece|ee|ei)\.nits\.ac\.in)$/.test(value);
-      },
-      message:
-        "Email must be a valid email address with the domain @cse.nits.ac.in, @civil.nits.ac.in, @me.nits.ac.in, @ece.nits.ac.in, @ee.nits.ac.in, or @ei.nits.ac.in.",
-    },
   },
   branch: {
     type: String,
