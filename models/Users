@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema({
   branch: {
     type: String,
     // enum: ["CSE", "Civil", "ME", "ECE", "EE", "EI"],
-    enum: ["Civil", "CSE", "EE", "ECE", "EIE", "ME"],
+    enum: ["Civil", "CSE", "EE", "ECE", "EI", "ME"],
     required: true,
   },
   scholarId: {
