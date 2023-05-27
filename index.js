@@ -86,7 +86,7 @@ app.post("/createUser", async (req, res) => {
   //sending confirmation email to the user's entered email and their entered email
   const email = user.email;
   const subject = "Successful Submission of the ECELL recruitment form.";
-  const text = `Thanks for filling out ECELL NITS recruitment form.\n\n\nHere's what we have received.\n\nName: ${user.name}\nMobile number:${user.mobileno}\nEmail: ${user.email}\nScholar ID: ${user.scholarId}\nWhy do you want to join ecell?: ${user.whyecell}\nBranch: ${user.branch}\nPoster links:${user.poster}\nResume link:${user.resume}\nYour Project link:${user.project}`;
+  const text = `Thanks for filling out ECELL NITS recruitment form.\n\n\nHere's what we have received.\n\nName: ${user.name}\nMobile number:${user.mobileno}\nEmail: ${user.email}\nScholar ID: ${user.scholarId}\nWhy do you want to join ecell?: ${user.whyecell}\nBranch: ${user.branch}\nWhich domain in technical team of ECELL you want to apply for? : ${user.techteam}\nResume link:${user.resume}`;
   sendEmail(email, subject, text);
   res.json(user);
 });

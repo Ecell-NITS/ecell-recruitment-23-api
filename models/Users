@@ -17,10 +17,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  project: {
-    type: String,
-    required: true,
-  },
+  // project: {
+  //   type: String,
+  //   required: true,
+  // },
   email: {
     type: String,
     required: true,
@@ -31,6 +31,16 @@ const UserSchema = new mongoose.Schema({
     // enum: ["CSE", "Civil", "ME", "ECE", "EE", "EI"],
     enum: ["Civil", "CSE", "EE", "ECE", "EI", "ME"],
     required: true,
+  },
+  // team:{
+  //   type:[String],
+  //   required:true,
+  //   enum:["UI", "UX" ],
+  // },
+  techteam:{
+    type:String,
+    enum:["Web Development", "UI/UX", "Flutter"],
+    required:true
   },
   scholarId: {
     type: String,
@@ -44,9 +54,9 @@ const UserSchema = new mongoose.Schema({
         'Scholar ID must begin with "221" and have 7 numeric characters.',
     },
   },
-  ip: String, // New field for IP address
+  // ip: String, // New field for IP address
   timestamp: Date,
-  poster: String,
+  // poster: String,
 });
 
 const UserModel = mongoose.model("recruit", UserSchema);
