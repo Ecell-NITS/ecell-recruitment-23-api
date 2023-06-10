@@ -80,13 +80,13 @@ app.post("/check-scholarid", (req, res) => {
 
 app.post("/createUser", async (req, res) => {
   const user = req.body;
-  const newUser = new UserModel(user); //creating new user
+  const newUser = new UserModel(user); 
   await newUser.save();
   
   //sending confirmation email to the user's entered email and their entered email
   const email = user.email;
   const subject = "Successful Submission of the ECELL recruitment form.";
-  const text = `Thanks for filling out ECELL NITS recruitment form.\n\n\nHere's what we have received.\n\nName: ${user.name}\nMobile number:${user.mobileno}\nEmail: ${user.email}\nScholar ID: ${user.scholarId}\nWhy do you want to join ecell?: ${user.whyecell}\nBranch: ${user.branch}\nWhich domain in technical team of ECELL you want to apply for? : ${user.techteam}\nResume link:${user.resume}`;
+  const text = `Thanks for filling out ECELL NITS recruitment form.\n\n\nHere what we have received.\n\nName: ${user.name}\nMobile number:${user.mobileno}\nEmail: ${user.email}\nScholar ID: ${user.scholarId}\nWhy do you want to join ecell?: ${user.whyecell}\nBranch: ${user.branch}\nWhich domain in technical team of ECELL you want to apply for? : ${user.techteam}\nResume link:${user.resume}\n\n Please join this https://chat.whatsapp.com/FqKAj8b6cUj0tfyLArxdH6 whatsapp group as soon as possible for more information regarding further procedure for recruitment.`;
   sendEmail(email, subject, text);
   res.json(user);
 });
@@ -122,7 +122,11 @@ app.post("/verify-otp", (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+app.get("/", (req, res) => {
+  res.send("<p>Welcome to ecell Recruitment api.</p>");
+});
+
+const port = process.env.PORT || 8000;
 app.listen(port, "0.0.0.0", () => {
   console.log("server started.");
 });
