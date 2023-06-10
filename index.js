@@ -86,7 +86,7 @@ app.post("/createUser", async (req, res) => {
   //sending confirmation email to the user's entered email and their entered email
   const email = user.email;
   const subject = "Successful Submission of the ECELL recruitment form.";
-  const text = `Thanks for filling out ECELL NITS recruitment form.\n\n\nHere what we have received.\n\nName: ${user.name}\nMobile number:${user.mobileno}\nEmail: ${user.email}\nScholar ID: ${user.scholarId}\nWhy do you want to join ecell?: ${user.whyecell}\nBranch: ${user.branch}\nWhich domain in technical team of ECELL you want to apply for? : ${user.techteam}\nResume link:${user.resume}\n\n Please join this https://chat.whatsapp.com/FqKAj8b6cUj0tfyLArxdH6 whatsapp group as soon as possible for more information regarding further procedure for recruitment.`;
+  const text = `Thanks for filling out ECELL NITS recruitment form.\n\nHere's what was received.\n\nName: ${user.name}\nScholar ID: ${user.scholarId}\nBranch: ${user.branch}\nWhatsapp number:${user.mobileno}\nEmail: ${user.email}\nWhich domain in technical team of ECELL you want to apply for? : ${user.techteam}\nWhy do you want to join ecell?: ${user.whyecell}\nResume link:${user.resume}\n\n Please join this https://chat.whatsapp.com/FqKAj8b6cUj0tfyLArxdH6 whatsapp group as soon as possible for more information regarding further procedure for recruitment.`;
   sendEmail(email, subject, text);
   res.json(user);
 });
