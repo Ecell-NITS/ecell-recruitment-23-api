@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-let storedOTP = "";
+const otpStore = {};
 const sendEmail = (to, subject, text) => {
   const mailOptions = {
     from: process.env.EMAIL,
@@ -91,34 +91,58 @@ app.post("/createUser", async (req, res) => {
   res.json(user);
 });
 
+const Schema = mongoose.Schema;
+const otpSchema = new Schema({
+  email: { type: String, required: true },
+  otp: { type: String, required: true },
+});
+
+const OTPModel = mongoose.model("OTP", otpSchema);
+
 app.post("/send-otp", async (req, res) => {
   const { email } = req.body;
 
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   try {
-    sendEmail(email, "ECELL OTP Verification", `Your OTP for verifying your email id for filling Ecell recuitment form is: ${otp}`);
+    sendEmail(email, "ECELL OTP Verification", `Your OTP for verifying your email id for filling Ecell recruitment form is: ${otp}`);
 
-    storedOTP = otp.toString();
-    res.json({ success: true, otp });
+    await OTPModel.findOneAndUpdate({ email }, { otp }, { upsert: true });
+
+    res.json({ success: true, otp: otp.toString() });
   } catch (error) {
     console.log("Error sending OTP:", error);
     res.status(500).json({ error: "An error occurred while sending the OTP" });
   }
 });
 
-app.post("/verify-otp", (req, res) => {
+app.post("/verify-otp", async (req, res) => {
   console.log("Request Body:", req.body);
   const enteredOTP = req.body.otp.toString().trim();
-  const storedOTPString = storedOTP.toString().trim();
+  const email = req.body.email;
 
-  console.log("Entered OTP:", enteredOTP);
-  console.log("Stored OTP:", storedOTPString);
+  try {
+   
+    const otpData = await OTPModel.findOne({ email }).exec();
 
-  if (enteredOTP === storedOTPString) {
-    res.status(200).json({ message: "OTP verified successfully" });
-  } else {
-    res.status(400).json({ message: "Wrong OTP. Please try again" });
+    console.log("Entered OTP:", enteredOTP);
+    console.log("Stored OTP Data:", otpData.otp);
+// console.log(req.body.email)
+    if (otpData) {
+      const storedOTP = otpData.otp.toString().trim();
+      if (enteredOTP === storedOTP) {
+        res.status(200).json({ message: "OTP verified successfully" });
+      } else {
+        res.status(400).json({ message: "Wrong OTP. Please try again" });
+      }
+    } else {
+      console.log("No OTP found for the provided email");
+      res.status(400).json({ message: "No OTP found for the provided email" });
+    }
+  } catch (error) {
+    // console.log("Error verifying OTP:", error);
+    console.log(error)
+    res.status(500).json({ error: "An error occurred while verifying the OTP" });
   }
 });
 
