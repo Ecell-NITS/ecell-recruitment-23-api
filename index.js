@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const session = require('express-session');
 const mongoose = require("mongoose");
 const UserModel = require("./models/Users");
 const bodyParser = require("body-parser");
@@ -8,18 +7,8 @@ const nodemailer = require("nodemailer");
 app.use(bodyParser.json());
 const cors = require("cors");
 require("dotenv").config();
-const crypto = require('crypto');
 app.use(express.json());
-app.use(cors({
-  origin: 'https://ecellnits.org',
-  // origin: 'http://localhost:3000',
-  credentials: true
-}));
-app.use(session({
-  secret: crypto.randomBytes(32).toString('hex'),
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(cors());
 
 mongoose.connect(process.env.MONGODBSECRET);
 
@@ -110,8 +99,7 @@ app.post("/send-otp", async (req, res) => {
   try {
     sendEmail(email, "ECELL OTP Verification", `Your OTP for verifying your email id for filling Ecell recuitment form is: ${otp}`);
 
-    req.session.otp = otp.toString();
-
+    storedOTP = otp.toString();
     res.json({ success: true, otp });
   } catch (error) {
     console.log("Error sending OTP:", error);
@@ -122,20 +110,15 @@ app.post("/send-otp", async (req, res) => {
 app.post("/verify-otp", (req, res) => {
   console.log("Request Body:", req.body);
   const enteredOTP = req.body.otp.toString().trim();
-  const storedOTPString = req.session.otp;
+  const storedOTPString = storedOTP.toString().trim();
 
   console.log("Entered OTP:", enteredOTP);
   console.log("Stored OTP:", storedOTPString);
 
-  if (req.session.otp) {
-    if (enteredOTP === storedOTPString) {
-      delete req.session.otp;
-      res.status(200).json({ message: "OTP verified successfully" });
-    } else {
-      res.status(400).json({ message: "Wrong OTP. Please try again" });
-    }
+  if (enteredOTP === storedOTPString) {
+    res.status(200).json({ message: "OTP verified successfully" });
   } else {
-    res.status(400).json({ message: "No OTP found. Please generate a new OTP" });
+    res.status(400).json({ message: "Wrong OTP. Please try again" });
   }
 });
 
