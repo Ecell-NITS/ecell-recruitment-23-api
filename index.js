@@ -38,15 +38,23 @@ const sendEmail = (to, subject, text) => {
   });
 };
 
-app.get("/getUsers", (req, res) => {
-  UserModel.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
+app.post("/sendcred", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (username === process.env.USERNAME_TECHRESULT && password === process.env.PWD_TECHRESULT) {
+    UserModel.find({}, (err, result) => {
+      if (err) {
+        res.json(err);
+      } else {
+        res.json(result);
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'Unauthorized user' });
+  }
 });
+
 
 app.post("/check-email", (req, res) => {
   const email = req.body.email;
@@ -152,5 +160,5 @@ app.get("/", (req, res) => {
 
 const port = process.env.PORT || 8000;
 app.listen(port, "0.0.0.0", () => {
-  console.log("server started.");
+  console.log(`server started at ${port}`);
 });
