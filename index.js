@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const UserModel = require("./models/Users");
+const UserModelAllTeam = require("./models/Users");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 app.use(bodyParser.json());
@@ -43,7 +43,7 @@ app.post("/sendcred", (req, res) => {
   const password = req.body.password;
 
   if (username === process.env.USERNAME_TECHRESULT && password === process.env.PWD_TECHRESULT) {
-    UserModel.find({}, (err, result) => {
+    UserModelAllTeam.find({}, (err, result) => {
       if (err) {
         res.json(err);
       } else {
@@ -58,7 +58,7 @@ app.post("/sendcred", (req, res) => {
 
 app.post("/check-email", (req, res) => {
   const email = req.body.email;
-  UserModel.findOne({ email }, (err, user) => {
+  UserModelAllTeam.findOne({ email }, (err, user) => {
     if (err) {
       console.log("Error checking email uniqueness:", err);
       res
@@ -73,7 +73,7 @@ app.post("/check-email", (req, res) => {
 
 app.post("/check-scholarid", (req, res) => {
   const scholarId = req.body.scholarId;
-  UserModel.findOne({ scholarId }, (err, user) => {
+  UserModelAllTeam.findOne({ scholarId }, (err, user) => {
     if (err) {
       console.log("Error checking scholarId uniqueness:", err);
       res.status(500).json({
@@ -88,13 +88,13 @@ app.post("/check-scholarid", (req, res) => {
 
 app.post("/createUser", async (req, res) => {
   const user = req.body;
-  const newUser = new UserModel(user); 
+  const newUser = new UserModelAllTeam(user); 
   await newUser.save();
   
   //sending confirmation email to the user's entered email and their entered email
   const email = user.email;
   const subject = "Successful Submission of the ECELL recruitment form.";
-  const text = `Thanks for filling out ECELL NITS recruitment form.\n\nHere's what was received.\n\nName: ${user.name}\nScholar ID: ${user.scholarId}\nBranch: ${user.branch}\nWhatsapp number:${user.mobileno}\nEmail: ${user.email}\nWhich domain in technical team of ECELL you want to apply for? : ${user.techteam}\nWhy do you want to join ecell?: ${user.whyecell}\nResume link:${user.resume}\n\n Please join this https://chat.whatsapp.com/FqKAj8b6cUj0tfyLArxdH6 whatsapp group as soon as possible for more information regarding further procedure for recruitment.`;
+  const text = `Thanks for filling out ECELL NITS recruitment form.\n\nHere's what was received.\n\nName: ${user.name}\nScholar ID: ${user.scholarId}\nBranch: ${user.branch}\nWhatsapp number:${user.mobileno}\nEmail: ${user.email}\nWhich team you want to apply for? (multiple team selection allowed): ${user.team}\nWhy do you want to join ecell?: ${user.whyecell}\n\n Please join this https://chat.whatsapp.com/ whatsapp group as soon as possible for more information regarding further procedure for recruitment.`;
   sendEmail(email, subject, text);
   res.json(user);
 });
@@ -105,7 +105,7 @@ const otpSchema = new Schema({
   otp: { type: String, required: true },
 });
 
-const OTPModel = mongoose.model("OTP", otpSchema);
+const OTPModel = mongoose.model("OTPotherteamrecruit", otpSchema);
 
 app.post("/send-otp", async (req, res) => {
   const { email } = req.body;

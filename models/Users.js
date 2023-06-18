@@ -9,10 +9,7 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  resume: {
-    type: String,
-    required: true,
-  },
+ 
   whyecell: {
     type: String,
     required: true,
@@ -32,15 +29,10 @@ const UserSchema = new mongoose.Schema({
     enum: ["Civil", "CSE", "EE", "ECE", "EI", "ME"],
     required: true,
   },
-  // team:{
-  //   type:[String],
-  //   required:true,
-  //   enum:["UI", "UX" ],
-  // },
-  techteam:{
-    type:String,
-    enum:["Web Development", "UI/UX", "Flutter"],
-    required:true
+  team:{
+    type:[String],
+    required:true,
+    enum:["Content", "Collaboration & Outreach", "Curation","Design","Event Management","Marketing","Publicity"],
   },
   scholarId: {
     type: String,
@@ -59,5 +51,5 @@ const UserSchema = new mongoose.Schema({
   // poster: String,
 });
 
-const UserModel = mongoose.model("recruit", UserSchema);
-module.exports = UserModel;
+const UserModelAllTeam = mongoose.model("allteamrecruit", UserSchema);
+module.exports = UserModelAllTeam;
