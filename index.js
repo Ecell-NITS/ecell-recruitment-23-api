@@ -42,7 +42,10 @@ app.post("/sendcred", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  if (username === process.env.USERNAME_TECHRESULT && password === process.env.PWD_TECHRESULT) {
+  if (
+    username === process.env.USERNAME_TECHRESULT &&
+    password === process.env.PWD_TECHRESULT
+  ) {
     UserModelAllTeam.find({}, (err, result) => {
       if (err) {
         res.json(err);
@@ -51,10 +54,9 @@ app.post("/sendcred", (req, res) => {
       }
     });
   } else {
-    res.status(401).json({ message: 'Unauthorized user' });
+    res.status(401).json({ message: "Unauthorized user" });
   }
 });
-
 
 app.post("/check-email", (req, res) => {
   const email = req.body.email;
@@ -88,13 +90,49 @@ app.post("/check-scholarid", (req, res) => {
 
 app.post("/createUser", async (req, res) => {
   const user = req.body;
-  const newUser = new UserModelAllTeam(user); 
+  const newUser = new UserModelAllTeam(user);
   await newUser.save();
-  
+
   //sending confirmation email to the user's entered email and their entered email
   const email = user.email;
   const subject = "Successful Submission of the ECELL recruitment form.";
-  const text = `Thanks for filling out ECELL NITS recruitment form.\n\nHere's what was received.\n\nName: ${user.name}\nScholar ID: ${user.scholarId}\nBranch: ${user.branch}\nWhatsapp number:${user.mobileno}\nEmail: ${user.email}\nWhich team you want to apply for? (multiple team selection allowed): ${user.team}\nWhy do you want to join ecell?: ${user.whyecell}\n\n Please join this https://chat.whatsapp.com/ whatsapp group as soon as possible for more information regarding further procedure for recruitment.`;
+  let text = `Thanks for filling out ECELL NITS recruitment form.\n\nHere's what was received.\n\nName: ${user.name}\nScholar ID: ${user.scholarId}\nBranch: ${user.branch}\nWhatsapp number:${user.mobileno}\nEmail: ${user.email}\nWhich team you want to apply for? (multiple team selection allowed): ${user.team}\nWhy do you want to join ecell?: ${user.whyecell}\n\n`;
+
+  if (user.team.includes("Content")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/Content whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
+  if (user.team.includes("Collaboration & Outreach")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/CollaborationAndOutreach whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
+  if (user.team.includes("Curation")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/Curation whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
+  if (user.team.includes("Design")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/Design whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
+  if (user.team.includes("Event Management")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/EventManagement whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
+  if (user.team.includes("Marketing")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/Marketing whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
+  if (user.team.includes("Publicity")) {
+    text +=
+      "Please join this https://chat.whatsapp.com/Publicity whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+  }
+
   sendEmail(email, subject, text);
   res.json(user);
 });
@@ -113,7 +151,11 @@ app.post("/send-otp", async (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   try {
-    sendEmail(email, "ECELL OTP Verification", `Your OTP for verifying your email id for filling Ecell recruitment form is: ${otp}`);
+    sendEmail(
+      email,
+      "ECELL OTP Verification",
+      `Your OTP for verifying your email id for filling Ecell recruitment form is: ${otp}`
+    );
 
     await OTPModel.findOneAndUpdate({ email }, { otp }, { upsert: true });
 
@@ -130,12 +172,11 @@ app.post("/verify-otp", async (req, res) => {
   const email = req.body.email;
 
   try {
-   
     const otpData = await OTPModel.findOne({ email }).exec();
 
     console.log("Entered OTP:", enteredOTP);
     console.log("Stored OTP Data:", otpData.otp);
-// console.log(req.body.email)
+    // console.log(req.body.email)
     if (otpData) {
       const storedOTP = otpData.otp.toString().trim();
       if (enteredOTP === storedOTP) {
@@ -149,8 +190,10 @@ app.post("/verify-otp", async (req, res) => {
     }
   } catch (error) {
     // console.log("Error verifying OTP:", error);
-    console.log(error)
-    res.status(500).json({ error: "An error occurred while verifying the OTP" });
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while verifying the OTP" });
   }
 });
 
