@@ -100,37 +100,37 @@ app.post("/createUser", async (req, res) => {
 
   if (user.team.includes("Content")) {
     text +=
-      "Please join this https://chat.whatsapp.com/Content whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Content Team:\nPlease join this https://chat.whatsapp.com/BEcU8iM30wLFk60FSeaxSR whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   if (user.team.includes("Collaboration & Outreach")) {
     text +=
-      "Please join this https://chat.whatsapp.com/CollaborationAndOutreach whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Collaboration & Outreach Team:\nPlease join this https://chat.whatsapp.com/GCwTPEVWvEHAHOX6MbtL79 whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   if (user.team.includes("Curation")) {
     text +=
-      "Please join this https://chat.whatsapp.com/Curation whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Curation Team:\nPlease join this https://chat.whatsapp.com/BVVHP8kgkoKKrnp273jY0T whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   if (user.team.includes("Design")) {
     text +=
-      "Please join this https://chat.whatsapp.com/Design whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Design Team:\nPlease join this https://chat.whatsapp.com/IuRP6eY8f6I4HohLK6zpCN whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   if (user.team.includes("Event Management")) {
     text +=
-      "Please join this https://chat.whatsapp.com/EventManagement whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Event Management Team:\nPlease join this https://chat.whatsapp.com/G7uJFPFOzhzK9jJVgizd9W whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   if (user.team.includes("Marketing")) {
     text +=
-      "Please join this https://chat.whatsapp.com/Marketing whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Marketing Team:\nPlease join this https://chat.whatsapp.com/KM87LzkCqBhJy5nFRkD7e2 whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   if (user.team.includes("Publicity")) {
     text +=
-      "Please join this https://chat.whatsapp.com/Publicity whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
+      "Publicity Team:\nPlease join this https://chat.whatsapp.com/G0EUPbxQnL6E5E2qth4Lz4 whatsapp group as soon as possible for more information regarding further procedure for recruitment.\n\n";
   }
 
   sendEmail(email, subject, text);
