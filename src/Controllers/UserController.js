@@ -11,7 +11,7 @@ const home = (req, res) => {
 const sendCred = (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-
+console.log(username, password)
   if (
     username === process.env.USERNAME_TECHRESULT &&
     password === process.env.PWD_TECHRESULT
@@ -19,12 +19,14 @@ const sendCred = (req, res) => {
     UserModelAllTeam.find({}, (err, result) => {
       if (err) {
         res.json(err);
+        console.log(err)
       } else {
         res.json(result);
       }
     });
   } else {
     res.status(401).json({ message: "Unauthorized user" });
+    console.log('failed to log in, wrong creds entered')
   }
 };
 
@@ -109,7 +111,7 @@ const createUser = async (req, res) => {
 
 const sendOtp = async(req,res) => {
     const { email } = req.body;
-
+console.log(email)
     const otp = Math.floor(100000 + Math.random() * 900000);
   
     try {
