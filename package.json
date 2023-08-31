@@ -1,0 +1,24 @@
+{
+  "name": "e-cell-recruitment-backend",
+  "version": "1.0.0",
+  "description": "Recruitment services for the recruitment of batch 2023-24",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js",
+    "build": "npm install"
+  },
+  "keywords": [],
+  "author": "Technical Team of E-Cell",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^6.0.12",
+    "nodemailer": "^6.9.4",
+    "nodemon": "^3.0.1"
+  }
+}
